@@ -5,7 +5,7 @@ pipeline {
         APP_NAME = 'streamlit-app'
         IMAGE_NAME = 'my-streamlit-app'
         AWS_EC2_USER = 'ubuntu'
-        AWS_EC2_HOST = '13.127.121.101'
+        AWS_EC2_HOST = '3.109.143.79'
         DEPLOY_PATH = '/home/ubuntu/streamlit-app'
     }
 
