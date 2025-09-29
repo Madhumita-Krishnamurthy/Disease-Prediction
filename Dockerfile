@@ -1,7 +1,7 @@
-# Use lightweight Python image
+# Use a lightweight Python base image
 FROM python:3.10-slim
 
-# Prevents writing pyc files and forces output to terminal
+# Prevent Python from writing pyc files and buffer issues
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
@@ -13,13 +13,12 @@ COPY requirements.txt .
 RUN pip install --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
 
-# Copy project files into the container
+# Copy the rest of the project
 COPY . .
 
-# Expose the port Flask will run on
-EXPOSE 5000
+# Expose Streamlit default port
+EXPOSE 8501
 
-# Start app using Gunicorn
-# "ml:app" means -> file `ml.py` contains variable `app = Flask(__name__)`
-# If your Flask instance has a different name, adjust this
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "ml:app"]
+# Run Streamlit app
+# On Render, $PORT is injected, so we map Streamlit to it
+CMD ["streamlit", "run", "ml.py", "--server.port=$PORT", "--server.address=0.0.0.0"]
